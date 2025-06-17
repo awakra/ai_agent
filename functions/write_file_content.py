@@ -1,6 +1,5 @@
 import os
 
-
 def write_file(working_directory, file_path, content):
     abs_working_dir = os.path.abspath(working_directory)
     abs_file_path = os.path.abspath(os.path.join(working_directory, file_path))
@@ -21,3 +20,26 @@ def write_file(working_directory, file_path, content):
         )
     except Exception as e:
         return f"Error: writing to file: {e}"
+
+# --- Add this for the schema ---
+from google.genai import types
+
+schema_write_file = types.FunctionDeclaration(
+    name="write_file",
+    description="Write or overwrite the contents of a file",
+    parameters={
+        "type": "object",
+        "properties": {
+            "file_path": {
+                "type": "string",
+                "description": "Relative path to the file"
+            },
+            "content": {
+                "type": "string",
+                "description": "Content to write to the file"
+            }
+        },
+        "required": ["file_path", "content"]
+    }
+)
+
